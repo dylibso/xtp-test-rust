@@ -91,7 +91,7 @@ pub fn test() -> FnResult<()> {
 }
 ```
 
-**3. Compile your test and interface to .wasm:**
+**3. Compile your test to .wasm:**
 
 Ensure you have the `wasm32-unknown-unknown` and/or `wasm32-wasi` targets
 installed via `rustup`, and run:
