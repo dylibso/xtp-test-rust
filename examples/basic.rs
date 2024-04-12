@@ -14,7 +14,7 @@ pub fn test() -> FnResult<()> {
         );
         xtp_test::assert(
             "runs in some time",
-            xtp_test::time_ns("example", "example")? < 10000,
+            xtp_test::time_ns("example", "example")? < 1000000,
         );
         Ok(())
     })?;

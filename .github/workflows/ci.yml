@@ -1,0 +1,31 @@
+name: CI
+on: [pull_request, workflow_dispatch]
+
+jobs:
+  test-example:
+    runs-on: ${{ matrix.os }}
+    strategy:
+      matrix:
+        os: [ubuntu-latest, macos-latest]
+        rust:
+          - stable
+    steps:
+      - uses: actions/checkout@v3
+
+      - name: Install Rust
+        uses: actions-rs/toolchain@v1
+        with:
+          toolchain: ${{ matrix.rust }}
+          override: true
+
+      - name: Install wasm32 target
+        run: rustup target add wasm32-unknown-unknown
+
+      - name: Install XTP CLI
+        run: curl https://static.dylibso.com/cli/install.sh | sudo sh
+
+      - name: Build
+        run: cargo build --release --examples
+
+      - name: XTP test
+        run: xtp plugin test wasm/user.wasm --with target/wasm32-unknown-unknown/release/examples/basic.wasm --host wasm/host.wasm
