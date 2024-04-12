@@ -13,7 +13,7 @@ mod harness {
 }
 
 /// Call a function from the Extism plugin being tested, passing input and returning its output Memory.
-pub fn call(func_name: impl AsRef<str>, input: impl ToMemory) -> Result<Memory> {
+pub fn call_memory(func_name: impl AsRef<str>, input: impl ToMemory) -> Result<Memory> {
     let func_name = func_name.as_ref();
     let func_mem = Memory::from_bytes(func_name)?;
     let input_mem = input.to_memory()?;
@@ -28,22 +28,15 @@ pub fn call(func_name: impl AsRef<str>, input: impl ToMemory) -> Result<Memory> 
     Ok(output)
 }
 
-/// Call a function from the Extism plugin being tested, passing input and returning its output as a `Vec<u8>`.
-pub fn call_bytes(func_name: impl AsRef<str>, input: impl ToMemory) -> Result<Vec<u8>> {
-    let output_mem = call(func_name, input)?;
-    let output = output_mem.to_vec();
+/// Call a function from the Extism plugin being tested, passing input and returning its output.
+pub fn call<T: extism_pdk::FromBytesOwned>(
+    func_name: impl AsRef<str>,
+    input: impl ToMemory,
+) -> Result<T> {
+    let output_mem = call_memory(func_name, input)?;
+    let output = output_mem.to();
     output_mem.free();
-
-    Ok(output)
-}
-
-/// Call a function from the Extism plugin being tested, passing input and returning its output as a string.
-pub fn call_string(func_name: impl AsRef<str>, input: impl ToMemory) -> Result<String> {
-    let output_mem = call(func_name, input)?;
-    let output = output_mem.to_string()?;
-    output_mem.free();
-
-    Ok(output)
+    output
 }
 
 /// Call a function from the Extism plugin being tested, passing input and returning the time in nanoseconds spent in the fuction.

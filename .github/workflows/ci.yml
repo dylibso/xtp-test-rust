@@ -27,5 +27,8 @@ jobs:
       - name: Build
         run: cargo build --release --examples
 
-      - name: XTP test
-        run: xtp plugin test wasm/user.wasm --with target/wasm32-unknown-unknown/release/examples/basic.wasm --host wasm/host.wasm
+      - name: Test example
+        run: |
+          xtp plugin test \
+            https://raw.githubusercontent.com/extism/extism/main/wasm/code.wasm \
+            --with target/wasm32-unknown-unknown/release/examples/basic.wasm
