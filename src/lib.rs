@@ -28,7 +28,7 @@ pub fn call(func_name: impl AsRef<str>, input: impl ToMemory) -> Result<Memory> 
     Ok(output)
 }
 
-/// Call a function from the Extism plugin being tested, passing input and returning its output as a Vec<u8>.
+/// Call a function from the Extism plugin being tested, passing input and returning its output as a `Vec<u8>`.
 pub fn call_bytes(func_name: impl AsRef<str>, input: impl ToMemory) -> Result<Vec<u8>> {
     let output_mem = call(func_name, input)?;
     let output = output_mem.to_vec();
@@ -99,6 +99,17 @@ pub fn reset() {
 }
 
 /// Run a test group, resetting the plugin before and after the group is run.
+/// ```rust
+/// use extism_pdk::*;
+///
+/// #[plugin_fn]
+/// pub fn test() -> FnResult<()> {
+///   xtp_test::group("group name", || {
+///       xtp_test::assert("test name", true);
+///   })?;
+///   Ok(())
+/// }
+/// ```
 pub fn group(name: impl AsRef<str>, f: impl FnOnce() -> Result<()>) -> Result<()> {
     reset();
     start_group(name);
