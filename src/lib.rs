@@ -125,8 +125,12 @@ pub fn group(name: impl AsRef<str>, f: impl FnOnce() -> Result<()>) -> Result<()
 #[macro_export]
 macro_rules! assert {
     ($name:expr, $b:expr) => {
-        $crate::assert($name, $b, "Assertion failed ({}, line {})" file!(), line!());
-    }
+        $crate::assert(
+            $name,
+            $b,
+            format!("Assertion failed ({}, line {})", file!(), line!()),
+        );
+    };
 }
 
 #[macro_export]
