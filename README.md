@@ -105,9 +105,9 @@ curl https://static.dylibso.com/cli/install.sh | sudo sh
 ### Run the test suite
 
 ```sh
-xtp plugin test ./plugin-*.wasm --with test.wasm --host host.wasm
-#               ^^^^^^^^^^^^^^^        ^^^^^^^^^        ^^^^^^^^^
-#               your plugin(s)         test to run      optional mock host functions
+xtp plugin test ./plugin-*.wasm --with test.wasm --mock-host host.wasm
+#               ^^^^^^^^^^^^^^^        ^^^^^^^^^             ^^^^^^^^^
+#               your plugin(s)         test to run           optional mock host functions
 ```
 
 **Note:** The optional mock host functions must be implemented as Extism
