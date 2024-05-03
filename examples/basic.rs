@@ -16,6 +16,14 @@ pub fn test() -> FnResult<()> {
     // assert the count of the vowels is correct, giving the test case a name (which will be shown in the CLI output)
     xtp_test::assert_eq("count_vowels of 'some input'", res.count, 4);
 
+    let time_ns = xtp_test::time_ns("count_vowels", "o".repeat(1024 * 10))?;
+    const TARGET_NS: u64 = 5e5 as u64;
+    xtp_test::assert(
+        "timing count_vowels nanos (10KB input)",
+       time_ns < TARGET_NS,
+        format!("{} > {}", time_ns, TARGET_NS),
+    );
+
     // create a group of tests, which will be run together and reset after the group is complete
     xtp_test::group("count_vowels maintains state", || {
         let mut accum_total = 0;
