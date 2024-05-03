@@ -10,21 +10,11 @@ pub struct Count {
 
 #[plugin_fn]
 pub fn test() -> FnResult<()> {
-    let example_input = "example";
-    xtp_test::group("checks example function and timing", || {
-        let example: String = xtp_test::call("example", example_input)?;
-        xtp_test::assert_ne("example not null", &example, "");
-        xtp_test::assert_eq("example output", example, "Hello, world!");
-        xtp_test::assert!(
-            "example runtime",
-            xtp_test::time_sec("example", vec![])? < 0.5
-        );
-        xtp_test::assert!(
-            "runs in some time",
-            xtp_test::time_ns("example", "example")? < 10000
-        );
-        Ok(())
-    })?;
+    // call a function from some Extism plugin (you'll link these up in the CLI command to run the test),
+    // passing in some data and getting back a string (`callString` is a helper for string output)
+    let Json(res): Json<Count> = xtp_test::call("count_vowels", "some input")?;
+    // assert the count of the vowels is correct, giving the test case a name (which will be shown in the CLI output)
+    xtp_test::assert_eq("count_vowels of 'some input'", res.count, 4);
 
     // create a group of tests, which will be run together and reset after the group is complete
     xtp_test::group("count_vowels maintains state", || {
