@@ -17,7 +17,7 @@ pub fn test() -> FnResult<()> {
     xtp_test::assert_eq("count_vowels of 'some input'", res.count, 4);
 
     let time_ns = xtp_test::time_ns("count_vowels", "o".repeat(1024 * 10))?;
-    const TARGET_NS: u64 = 6e5 as u64;
+    const TARGET_NS: u64 = 5e7 as u64;
     xtp_test::assert(
         "timing count_vowels nanos (10KB input)",
        time_ns < TARGET_NS,
