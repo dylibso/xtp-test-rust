@@ -24,6 +24,9 @@ jobs:
       - name: Install XTP CLI
         run: curl https://static.dylibso.com/cli/install.sh | sudo sh
 
+      - name: Check XTP CLI Version
+        run: xtp -v
+
       - name: Build
         run: cargo build --release --examples
 
