@@ -86,6 +86,42 @@ pub fn assert_ne<U: std::fmt::Debug, T: std::fmt::Debug + PartialEq<U>>(
     assert(msg, x != y, format!("Expected {:?} != {:?}", x, y));
 }
 
+/// Assert that `x` is greater than `y`, naming the assertion with `msg`, which will be used as a label in the CLI runner.
+pub fn assert_gt<U: std::fmt::Debug, T: std::fmt::Debug + PartialOrd<U>>(
+    msg: impl AsRef<str>,
+    x: T,
+    y: U,
+) {
+    assert(msg, x > y, format!("Expected {:?} > {:?}", x, y));
+}
+
+/// Assert that `x` is greater than or equal to `y`, naming the assertion with `msg`, which will be used as a label in the CLI runner.
+pub fn assert_gte<U: std::fmt::Debug, T: std::fmt::Debug + PartialOrd<U>>(
+    msg: impl AsRef<str>,
+    x: T,
+    y: U,
+) {
+    assert(msg, x >= y, format!("Expected {:?} >= {:?}", x, y));
+}
+
+/// Assert that `x` is less than `y`, naming the assertion with `msg`, which will be used as a label in the CLI runner.
+pub fn assert_lt<U: std::fmt::Debug, T: std::fmt::Debug + PartialOrd<U>>(
+    msg: impl AsRef<str>,
+    x: T,
+    y: U,
+) {
+    assert(msg, x < y, format!("Expected {:?} < {:?}", x, y));
+}
+
+/// Assert that `x` is less than or equal to `y`, naming the assertion with `msg`, which will be used as a label in the CLI runner.
+pub fn assert_lte<U: std::fmt::Debug, T: std::fmt::Debug + PartialOrd<U>>(
+    msg: impl AsRef<str>,
+    x: T,
+    y: U,
+) {
+    assert(msg, x <= y, format!("Expected {:?} <= {:?}", x, y));
+}
+
 // Create a new test group. NOTE: these cannot be nested and starting a new group will end the last one.
 fn start_group(name: impl AsRef<str>) {
     let name_mem = Memory::from_bytes(name.as_ref()).expect("assert message Extism memory");
