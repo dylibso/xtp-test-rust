@@ -19,14 +19,14 @@ pub fn test() -> FnResult<()> {
     // passing in some data and getting back a string (`callString` is a helper for string output)
     let Json(res): Json<Count> = xtp_test::call("count_vowels", "some input")?;
     // assert the count of the vowels is correct, giving the test case a name (which will be shown in the CLI output)
-    xtp_test::assert_eq("count_vowels of 'some input'", res.count, 4);
+    // using the macro version here will also capture filename and line number
+    xtp_test::assert_eq!("count_vowels of 'some input'", res.count, 4);
 
     let time_ns = xtp_test::time_ns("count_vowels", "o".repeat(1024 * 10))?;
-    const TARGET_NS: u64 = 5e7 as u64;
-    xtp_test::assert(
+    xtp_test::assert_lt!(
         "timing count_vowels nanos (10KB input)",
-        time_ns < TARGET_NS,
-        format!("{} > {}", time_ns, TARGET_NS),
+        time_ns,
+        5e7 as u64
     );
 
     // create a group of tests, which will be run together and reset after the group is complete

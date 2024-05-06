@@ -164,7 +164,7 @@ macro_rules! assert {
         $crate::assert(
             $name,
             $b,
-            format!("Assertion failed ({}, line {})", file!(), line!()),
+            format!("Assertion failed ({}:{})", file!(), line!()),
         );
     };
 }
@@ -175,13 +175,7 @@ macro_rules! assert_eq {
         $crate::assert(
             $name,
             $a == $b,
-            format!(
-                "Expected {:?} == {:?} ({}, line {})",
-                $a,
-                $b,
-                file!(),
-                line!()
-            ),
+            format!("Expected {:?} == {:?} ({}:{})", $a, $b, file!(), line!()),
         );
     };
 }
@@ -192,13 +186,51 @@ macro_rules! assert_ne {
         $crate::assert(
             $name,
             $a != $b,
-            format!(
-                "Expected {:?} != {:?} ({}, line {})",
-                $a,
-                $b,
-                file!(),
-                line!()
-            ),
+            format!("Expected {:?} != {:?} ({}:{})", $a, $b, file!(), line!()),
+        );
+    };
+}
+
+#[macro_export]
+macro_rules! assert_lt {
+    ($name:expr, $a:expr, $b:expr) => {
+        $crate::assert(
+            $name,
+            $a < $b,
+            format!("Expected {:?} < {:?} ({}:{})", $a, $b, file!(), line!()),
+        );
+    };
+}
+
+#[macro_export]
+macro_rules! assert_lte {
+    ($name:expr, $a:expr, $b:expr) => {
+        $crate::assert(
+            $name,
+            $a <= $b,
+            format!("Expected {:?} <= {:?} ({}:{})", $a, $b, file!(), line!()),
+        );
+    };
+}
+
+#[macro_export]
+macro_rules! assert_gt {
+    ($name:expr, $a:expr, $b:expr) => {
+        $crate::assert(
+            $name,
+            $a > $b,
+            format!("Expected {:?} > {:?} ({}:{})", $a, $b, file!(), line!()),
+        );
+    };
+}
+
+#[macro_export]
+macro_rules! assert_gte {
+    ($name:expr, $a:expr, $b:expr) => {
+        $crate::assert(
+            $name,
+            $a >= $b,
+            format!("Expected {:?} >= {:?} ({}:{})", $a, $b, file!(), line!()),
         );
     };
 }
