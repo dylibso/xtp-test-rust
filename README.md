@@ -26,7 +26,8 @@ pub fn test() -> FnResult<()> {
     // passing in some data and getting back a string (`callString` is a helper for string output)
     let Json(res): Json<Count> = xtp_test::call("count_vowels", "some input")?;
     // assert the count of the vowels is correct, giving the test case a name (which will be shown in the CLI output)
-    xtp_test::assert_eq("count_vowels of 'some input'", res.count, 4);
+    // using the macro version here will also capture filename and line number
+    xtp_test::assert_eq!("count_vowels of 'some input'", res.count, 4);
 
     // create a group of tests, which will be run together and reset after the group is complete
     xtp_test::group("count_vowels maintains state", || {
