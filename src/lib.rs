@@ -1,5 +1,5 @@
 use anyhow::Result;
-use extism_pdk::{Memory, ToMemory};
+use extism_pdk::{FromBytesOwned, Memory, ToMemory};
 
 mod harness {
     #[link(wasm_import_module = "xtp:test/harness")]
@@ -9,7 +9,21 @@ mod harness {
         pub fn assert(name: u64, value: u64, message: u64);
         pub fn reset();
         pub fn group(name: u64);
+        pub fn mock_input() -> u64;
     }
+}
+
+pub fn mock_input<T: FromBytesOwned>() -> Result<T> {
+    let offs = unsafe { harness::mock_input() };
+    if offs == 0 {
+        anyhow::bail!("No mock input configured");
+    }
+
+    let output = match Memory::find(offs) {
+        None => anyhow::bail!("Error fetching mock input: invalid output offset"),
+        Some(x) => x,
+    };
+    output.to()
 }
 
 /// Call a function from the Extism plugin being tested, passing input and returning its output Memory.
