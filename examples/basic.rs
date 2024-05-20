@@ -20,8 +20,6 @@ pub fn test() -> FnResult<()> {
     xtp_test::assert_lte("gte test", 'Z', 'a');
     xtp_test::assert_lte("lte test", 1 / 10, 1 / 10);
 
-    // let d = Default::default();
-
     // call a function from some Extism plugin (you'll link these up in the CLI command to run the test),
     // passing in some data and getting back a string (`callString` is a helper for string output)
     let Json(res): Json<Count> = xtp_test::call("count_vowels", "some input")?;
