@@ -23,7 +23,9 @@ pub fn mock_input<T: FromBytesOwned>() -> Result<T> {
         None => anyhow::bail!("Error fetching mock input: invalid output offset"),
         Some(x) => x,
     };
-    output.to()
+    let x = output.to();
+    output.free();
+    x
 }
 
 /// Call a function from the Extism plugin being tested, passing input and returning its output Memory.
