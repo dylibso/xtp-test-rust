@@ -10,10 +10,17 @@ pub struct Count {
 
 #[plugin_fn]
 pub fn test() -> FnResult<()> {
+    // test mock_input, which enables the test harness to inject data
+    let Json(output): Json<Count> =
+        xtp_test::call("count_vowels", xtp_test::mock_input::<Vec<u8>>()?)?;
+    xtp_test::assert_ne!("count_vowels of mock_input isn't empty", output.count, 0);
+
     xtp_test::assert_gt("gt test", 100, 1);
     xtp_test::assert_lt("lt test", std::f64::MIN, std::f64::MAX);
     xtp_test::assert_lte("gte test", 'Z', 'a');
     xtp_test::assert_lte("lte test", 1 / 10, 1 / 10);
+
+    // let d = Default::default();
 
     // call a function from some Extism plugin (you'll link these up in the CLI command to run the test),
     // passing in some data and getting back a string (`callString` is a helper for string output)
