@@ -11,8 +11,8 @@ pub struct Count {
 #[plugin_fn]
 pub fn test() -> FnResult<()> {
     // test mock_input, which enables the test harness to inject data
-    let Json(output): Json<Count> =
-        xtp_test::call("count_vowels", xtp_test::mock_input::<Vec<u8>>()?)?;
+    let x: Vec<u8> = xtp_test::mock_input().unwrap_or_default();
+    let Json(output): Json<Count> = xtp_test::call("count_vowels", x)?;
     xtp_test::assert_ne!("count_vowels of mock_input isn't empty", output.count, 0);
 
     xtp_test::assert_gt("gt test", 100, 1);

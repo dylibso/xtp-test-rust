@@ -1,5 +1,5 @@
 use anyhow::Result;
-use extism_pdk::{FromBytesOwned, Memory, ToMemory};
+use extism_pdk::{log, FromBytesOwned, LogLevel, Memory, ToMemory};
 
 mod harness {
     #[link(wasm_import_module = "xtp:test/harness")]
@@ -13,19 +13,18 @@ mod harness {
     }
 }
 
-pub fn mock_input<T: FromBytesOwned>() -> Result<T> {
+pub fn mock_input<T: FromBytesOwned>() -> Option<T> {
     let offs = unsafe { harness::mock_input() };
-    if offs == 0 {
-        anyhow::bail!("No mock input configured");
+    let mem = Memory::find(offs)?;
+    let x = mem.to();
+    mem.free();
+    match x {
+        Ok(x) => Some(x),
+        Err(e) => {
+            log!(LogLevel::Error, "Invalid mock_input type: {:?}", e);
+            None
+        }
     }
-
-    let output = match Memory::find(offs) {
-        None => anyhow::bail!("Error fetching mock input: invalid output offset"),
-        Some(x) => x,
-    };
-    let x = output.to();
-    output.free();
-    x
 }
 
 /// Call a function from the Extism plugin being tested, passing input and returning its output Memory.
