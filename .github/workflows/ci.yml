@@ -32,6 +32,5 @@ jobs:
 
       - name: Test example
         run: |
-          xtp plugin test \
-            https://raw.githubusercontent.com/extism/extism/main/wasm/code.wasm \
-            --with target/wasm32-unknown-unknown/release/examples/basic.wasm
+          # this is configured in `xtp.toml`
+          xtp plugin test https://raw.githubusercontent.com/extism/extism/main/wasm/code.wasm

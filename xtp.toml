@@ -1,0 +1,11 @@
+[[test]]
+name = "basic"
+build = "cargo build --target wasm32-unknown-unknown --example basic"
+with = "target/wasm32-unknown-unknown/debug/examples/basic.wasm"
+mock_input = { data = "this is my mock input data" }
+
+[[test]]
+name = "basic - file input"
+build = "cargo build --target wasm32-unknown-unknown --example basic"
+with = "target/wasm32-unknown-unknown/debug/examples/basic.wasm"
+mock_input = { file = "examples/basic.rs" }
