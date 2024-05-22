@@ -1,6 +1,6 @@
 [package]
 name = "xtp-test"
-version = "0.0.1-rc7"
+version = "0.0.1"
 edition = "2021"
 license = "BSD-3-Clause"
 authors = ["Dylibso, Inc. <support@dylibso.com>"]
