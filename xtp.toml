@@ -1,3 +1,5 @@
+bin = "https://raw.githubusercontent.com/extism/extism/main/wasm/code.wasm"
+
 [[test]]
 name = "basic"
 build = "cargo build --target wasm32-unknown-unknown --example basic"
